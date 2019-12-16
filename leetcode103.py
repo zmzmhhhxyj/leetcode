@@ -29,14 +29,23 @@ def constructBinaryTree(elemList):
     return _root
 
 class Solution:
-    def maxDepth(self, root: TreeNode) -> int:
-        if not root:
-            return 0
-        return 1+max(self.maxDepth(root.left),self.maxDepth(root.right))
+    def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
+        res,stack = [],[(root,0)]
+        while stack:
+            node, level = stack.pop()
+            if node:
+                if len(res)<level+1:
+                    res.append([])
+                if level % 2==1:
+                    res[level].append(node.val)
+                else:
+                    res[level].insert(0,(node.val))
+                stack.append((node.left,level+1))
+                stack.append((node.right,level+1))
+        return res
 
-        
 
 tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])
 solution = Solution()
-res = solution.maxDepth(tree)
+res = solution.zigzagLevelOrder(tree)
 print(res)  
