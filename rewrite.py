@@ -27,20 +27,21 @@ def constructBinaryTree(elemList):
             root.right = None
     recr(_root, 0)
     return _root
+
 class Solution:
-    def levelOrder(self, root: TreeNode) -> List[List[int]]:
-        stack = [(root,0)]
-        res = []
+    def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
+        res,stack = [],[(root,0)]
         while stack:
-            node,level = stack.pop(0)
+            node, level = stack.pop()
             if node:
                 if len(res)<level+1:
                     res.append([])
-                res[level].append(node.val)
-                if node.left:
-                    stack.append((node.left,level+1))
-                if node.right:
-                    stack.append((node.right,level+1))
+                if level % 2==1:
+                    res[level].append(node.val)
+                else:
+                    res[level].insert(0,(node.val))
+                stack.append((node.left,level+1))
+                stack.append((node.right,level+1))
         return res
 
 
@@ -48,5 +49,5 @@ class Solution:
 
 tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])
 solution = Solution()
-res = solution.levelOrder(tree)
+res = solution.zigzagLevelOrder(tree)
 print(res)  
