@@ -37,10 +37,8 @@ class Solution:
             if len(res)<level+1:
                 res.append([])
             res[level].append(cur.val)
-            if cur.right:
-                stack.append((cur.right,level+1))
-            if cur.left: 
-                stack.append((cur.left,level+1))
+            stack.append((cur.right,level+1))
+            stack.append((cur.left,level+1))
         return res
         
 
