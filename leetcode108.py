@@ -70,23 +70,30 @@ def showDotFile(_strDotFile, _fileName = None, _outputName = None):
     print(consoleHandler.read())
     ## open PDF file
     print(os.popen("{0}\{1}".format(path, outputName)).read())
+    
+def levelOrder(root: TreeNode) :
+    res, queue = [],deque([(root,0)])
+    while queue:
+        cur,level = queue.popleft()
+        if cur:
+            if len(res)<level+1:
+                res.append([])
+            res[level].append(cur.val)
+            queue.append([cur.left,level+1])
+            queue.append([cur.right,level+1])
+    print(res)
 
 class Solution:
-    def minDepth(self, root: TreeNode) -> int:
-        if not root:
-            return 0
-        level_l = self.minDepth(root.left)
-        level_r = self.minDepth(root.right)
-        #两个子节点有缺失，取最大深度
-        if not level_l or not level_r:
-            return max(level_l,level_r)+1
-        #两个子节点都在，取两个节点中最小深度
-        return min(level_l,level_r)+1
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        if len(nums)<1:
+            return 
+        idx = len(nums)//2
+        root = TreeNode(nums[idx])
+        root.left = self.sortedArrayToBST(nums[0:idx])
+        root.right = self.sortedArrayToBST(nums[idx+1:])
+        return root
 
-
-tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])        
+      
 solution = Solution()
-res = solution.minDepth(tree)
-#strFile = outputBinaryTreeByDot(res)
-#showDotFile(strFile)
-print(res)
+res = solution.sortedArrayToBST([-10,-3,0,5,9])
+levelOrder(res)

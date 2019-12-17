@@ -71,6 +71,7 @@ def showDotFile(_strDotFile, _fileName = None, _outputName = None):
     ## open PDF file
     print(os.popen("{0}\{1}".format(path, outputName)).read())
 
+
 def levelOrder(root: TreeNode) :
     res, queue = [],deque([(root,0)])
     while queue:
@@ -84,16 +85,17 @@ def levelOrder(root: TreeNode) :
     print(res)
 
 class Solution:
-    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
-        if len(nums)<1:
-            return 
-        idx = len(nums)//2
-        root = TreeNode(nums[idx])
-        root.left = self.sortedArrayToBST(nums[0:idx])
-        root.right = self.sortedArrayToBST(nums[idx+1:])
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        if len(preorder)==0:
+            return
+        node = TreeNode(preorder[0])
+        root = node
+        idx = inorder.index(node.val)
+        node.left = self.buildTree(preorder[1:idx+1],inorder[:idx])
+        node.right = self.buildTree(preorder[idx+1:],inorder[idx+1:])
         return root
 
-      
+tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])
 solution = Solution()
-res = solution.sortedArrayToBST([-10,-3,0,5,9])
-levelOrder(res)
+root = solution.buildTree([3,9,10,20,15,7],[9,10,3,15,20,7])
+levelOrder(root)

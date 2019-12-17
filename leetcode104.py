@@ -28,6 +28,7 @@ def constructBinaryTree(elemList):
     recr(_root, 0)
     return _root
 
+
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
         if not root:

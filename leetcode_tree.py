@@ -28,6 +28,18 @@ def constructBinaryTree(self,elemList):
     recr(_root, 0)
     return _root
 
+def levelOrder(root: TreeNode) :
+    res, queue = [],deque([(root,0)])
+    while queue:
+        cur,level = queue.popleft()
+        if cur:
+            if len(res)<level+1:
+                res.append([])
+            res[level].append(cur.val)
+            queue.append([cur.left,level+1])
+            queue.append([cur.right,level+1])
+    print(res)
+
 
 tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])
 print(tree)  
