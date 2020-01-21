@@ -1,10 +1,11 @@
 from typing import List
 from collections import deque
 class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
 
 def constructBinaryTree(elemList):
     length = len(elemList)
@@ -71,29 +72,23 @@ def showDotFile(_strDotFile, _fileName = None, _outputName = None):
     ## open PDF file
     print(os.popen("{0}\{1}".format(path, outputName)).read())
 
-def levelOrder(root: TreeNode) :
-    res, queue = [],deque([(root,0)])
-    while queue:
-        cur,level = queue.popleft()
-        if cur:
-            if len(res)<level+1:
-                res.append([])
-            res[level].append(cur.val)
-            queue.append([cur.left,level+1])
-            queue.append([cur.right,level+1])
-    print(res)
-
 class Solution:
-    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
-        if len(nums)<1:
-            return 
-        idx = len(nums)//2
-        root = TreeNode(nums[idx])
-        root.left = self.sortedArrayToBST(nums[0:idx])
-        root.right = self.sortedArrayToBST(nums[idx+1:])
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return None
+        if root.left and root.right:
+            root.left.next = root.right
+        if root.next and root.next.left:
+            root.right.next = root.next.left
+        self.connect(root.left)
+        self.connect(root.right)
         return root
 
-      
+    
+
+tree = constructBinaryTree([1,2,3,4,5,6,7])        
 solution = Solution()
-res = solution.sortedArrayToBST([-10,-3,0,5,9])
-levelOrder(res)
+solution.connect(tree)
+
+strFile = outputBinaryTreeByDot(tree)
+showDotFile(strFile)

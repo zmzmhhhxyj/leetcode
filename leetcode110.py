@@ -1,11 +1,10 @@
 from typing import List
 from collections import deque
 class TreeNode:
-    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
-        self.val = val
-        self.left = left
-        self.right = right
-        self.next = next
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 def constructBinaryTree(elemList):
     length = len(elemList)
@@ -71,33 +70,33 @@ def showDotFile(_strDotFile, _fileName = None, _outputName = None):
     print(consoleHandler.read())
     ## open PDF file
     print(os.popen("{0}\{1}".format(path, outputName)).read())
+    
+def levelOrder(root: TreeNode) :
+    res, queue = [],deque([(root,0)])
+    while queue:
+        cur,level = queue.popleft()
+        if cur:
+            if len(res)<level+1:
+                res.append([])
+            res[level].append(cur.val)
+            queue.append([cur.left,level+1])
+            queue.append([cur.right,level+1])
+    print(res)
+
 
 class Solution:
-    def connect(self, node: 'Node') -> 'Node':
-        tail = dummy = TreeNode(0)
-        root = node
-        while node:
-            tail.next = node.left
-            if tail.next:
-                tail = tail.next
-            tail.next = node.right
-            if tail.next:
-                tail = tail.next
-            node = node.next
-            if not node:
-                tail = dummy
-                node = dummy.next
-        return root
+    def isBalanced(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        return (abs(self.countLevel(root.left)-self.countLevel(root.right)))<2 and self.isBalanced(root.left)  and self.isBalanced(root.right)
 
+    def countLevel(self,root):
+        if not root:
+            return 0
+        return 1+max(self.countLevel(root.left),self.countLevel(root.right))
 
-
-
-
-
-
-tree = constructBinaryTree([1,2,3,4,5,None,7])        
+      
 solution = Solution()
-solution.connect(tree)
-
-strFile = outputBinaryTreeByDot(tree)
-showDotFile(strFile)
+tree = constructBinaryTree([3,9,20,None,None,15,7])
+res = solution.isBalanced(tree)
+print(res)

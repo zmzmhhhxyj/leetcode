@@ -73,31 +73,19 @@ def showDotFile(_strDotFile, _fileName = None, _outputName = None):
     print(os.popen("{0}\{1}".format(path, outputName)).read())
 
 class Solution:
-    def connect(self, node: 'Node') -> 'Node':
-        tail = dummy = TreeNode(0)
-        root = node
-        while node:
-            tail.next = node.left
-            if tail.next:
-                tail = tail.next
-            tail.next = node.right
-            if tail.next:
-                tail = tail.next
-            node = node.next
-            if not node:
-                tail = dummy
-                node = dummy.next
-        return root
+    def sumNumbers(self, root: TreeNode) -> int:
+        return self.dfs(root,0)
+    def dfs(self,root,sum):
+        if not root:
+            return sum
+        sum = sum*10+root.val
+        if not root.left and not root.right:
+            return sum
+        return self.dfs(root.left,sum)+self.dfs(root.right,sum)
+        
 
-
-
-
-
-
-
-tree = constructBinaryTree([1,2,3,4,5,None,7])        
+tree = constructBinaryTree([4,9,0,5,1])        
 solution = Solution()
-solution.connect(tree)
+a=solution.sumNumbers(tree)
+print(a)
 
-strFile = outputBinaryTreeByDot(tree)
-showDotFile(strFile)
