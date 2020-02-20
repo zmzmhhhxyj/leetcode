@@ -1,10 +1,25 @@
-from typing import List
-from collections import deque
 class TreeNode:
     def __init__(self, x):
         self.val = x
         self.left = None
         self.right = None
+
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        if not root:
+            return
+        self.res = 0
+        self.maxL(root)
+        return self.res-1
+
+    def maxL(self,node):
+        if not node:
+            return 0
+        l = self.maxL(node.left)
+        r = self.maxL(node.right)
+        self.res = max(self.res,l+r+1)
+        return max(l,r)+1
+
 
 def constructBinaryTree(elemList):
     length = len(elemList)
@@ -28,18 +43,8 @@ def constructBinaryTree(elemList):
     recr(_root, 0)
     return _root
 
-def levelOrder(root: TreeNode) :
-    res, queue = [],deque([(root,0)])
-    while queue:
-        cur,level = queue.popleft()
-        if cur:
-            if len(res)<level+1:
-                res.append([])
-            res[level].append(cur.val)
-            queue.append([cur.left,level+1])
-            queue.append([cur.right,level+1])
-    print(res)
-
-
-tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])
-levelOrder(tree)
+a = [1,2,NotImplemented,4,5,None,None,6,None,None,7]
+tree = constructBinaryTree(a)
+x = Solution()
+res = x.diameterOfBinaryTree(tree)
+print(res)

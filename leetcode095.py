@@ -20,11 +20,11 @@ class Solution:
             for i in res1:
                 for j in res2:
                     tmp = TreeNode(i)
-                    tmp.left = res1
-                    tmp.right = res2
+                    tmp.left = i
+                    tmp.right = j
                     res.append(tmp)
         return res
 
 x = Solution()
-a = x.generateTrees(0)
+a = x.generateTrees(5)
 print(a)
