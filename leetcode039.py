@@ -1,18 +1,20 @@
 from typing import List
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        res=[]
-        candidates.sort()
-        self.dfs(candidates,0,0,target,[],res)
+        res = []
+        def dfs(path,res,sum,start):
+            if sum == target:
+                res.append(path.copy())
+                return
+            if sum>target:
+                return
+            for i in range(start,len(candidates)):
+                path.append(candidates[i])
+                dfs(path,res,sum+candidates[i],i)
+                path.pop()
+        dfs([],res,0,0)
         return res
-    def dfs(self,candidates,idx,cur_num,target,cur_path,res):
-        if cur_num>target:
-            return
-        if cur_num==target:
-            res.append(cur_path)
-            return
-        for i in range(idx,len(candidates)):
-            self.dfs(candidates,i,cur_num+candidates[i],target,cur_path+[candidates[i]],res)
+
 
 x = Solution()
 a = x.combinationSum([2,3,6,7],7)

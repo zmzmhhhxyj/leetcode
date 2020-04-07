@@ -29,15 +29,29 @@ def constructBinaryTree(elemList):
     return _root
 
 class Solution:
-    def sumOfLeftLeaves(self, root: TreeNode) -> int:
-        if not root:
-            return 0
-        s = 0
-        if root.left and not root.left.left and not root.left.right:
-            s = s + root.left.val
-        return s + self.sumOfLeftLeaves(root.left)+self.sumOfLeftLeaves(root.right)
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        res, stack = [],[root]
+        while stack:
+            node = stack.pop()
+            if node:
+                res.append(node.val)
+                stack.append(node.left)
+                stack.append(node.right)
+        return res[::-1]
 
+    def postorderTraversal2(self, root: TreeNode) -> List[int]:
+        res = []
+        self.helper(root,res)
+        return res
+    
+    def helper(self,root,res):
+        if not root:
+            return
+        self.helper(root.left,res)
+        self.helper(root.right,res)
+        res.append(root.val)
+            
 tree = constructBinaryTree([3,9,20,None,None,15,7])
-x=Solution()
-res = x.sumOfLeftLeaves(tree)
+solution = Solution()
+res = solution.postorderTraversal(tree)
 print(res)  

@@ -31,17 +31,19 @@ def constructBinaryTree(elemList):
 
 class Solution:
     def inorderTraversal(self, root:TreeNode):
+        stack, node = [], root
         res = []
-        self.helper(root, res)
+        while stack or node:
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            res.append(node.val)
+            node = node.right
         return res
-        
-    def helper(self, root:TreeNode, res):
-        if root:
-            self.helper(root.left, res)
-            res.append(root.val)
-            self.helper(root.right, res)
+ 
 
 x = Solution()
-tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])
+tree = constructBinaryTree([3,8,9,10,None,None,7,None,6, None,None])
 a = x.inorderTraversal(tree)
 print(a)  

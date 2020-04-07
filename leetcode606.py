@@ -29,15 +29,24 @@ def constructBinaryTree(elemList):
     return _root
 
 class Solution:
-    def sumOfLeftLeaves(self, root: TreeNode) -> int:
-        if not root:
-            return 0
-        s = 0
-        if root.left and not root.left.left and not root.left.right:
-            s = s + root.left.val
-        return s + self.sumOfLeftLeaves(root.left)+self.sumOfLeftLeaves(root.right)
+    def tree2str(self, t: TreeNode) -> str:
+        if not t:
+            return
+        s = str(t.val)
+        l = self.tree2str(t.left)
+        r = self.tree2str(t.right)
+
+        if not t.left and not t.right:
+            return s
+        if not t.left:
+            return s+"()"+"("+r+")"
+        if not t.right:
+            return s+"("+l+")"
+        return s+"("+l+")"+"("+r+")"
+        
+
 
 tree = constructBinaryTree([3,9,20,None,None,15,7])
 x=Solution()
-res = x.sumOfLeftLeaves(tree)
+res = x.tree2str(tree)
 print(res)  

@@ -2,13 +2,19 @@ from typing import List
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         res = []
-        #for i in range(len(nums)):
-        self.helper(nums,0,res,[])
+        def dfs(n,s,path):
+            if n==len(path):
+                res.append(path.copy())
+                return
+            for i in range(s,len(nums)):
+                path.append(nums[i])
+                dfs(n,i+1,path)
+                path.pop()
+            return res
+        for n in range(len(nums)+1):
+            dfs(n,0,[])
         return res
-    def helper(self,nums,i,res,path):
-        res.append(path)
-        for i in range(i,len(nums)):
-            self.helper(nums,i+1,res,path+[nums[i]])
+
 
 if __name__=="__main__":
     a = [1,2,3]

@@ -1,5 +1,6 @@
 from typing import List
 from collections import deque
+import sys
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -27,58 +28,63 @@ def constructBinaryTree(elemList):
             root.right = None
     recr(_root, 0)
     return _root
-class Solution:
-    def levelOrder(self, root: TreeNode) -> List[List[int]]:
-        if not root:
-            return 
-        res,stack = [],[(root,0)]
-        while stack:
-            node,level = stack.pop(0)
+
+def levelOrder(root: TreeNode) :
+    res, queue = [],deque([(root,0)])
+    while queue:
+        cur,level = queue.popleft()
+        if cur:
             if len(res)<level+1:
                 res.append([])
-            res[level].append(node.val)
+            res[level].append(cur.val)
+            queue.append([cur.left,level+1])
+            queue.append([cur.right,level+1])
+    print(res)
+
+
+class Solution:
+    def averageOfLevels2(self, root: TreeNode) -> List[float]:
+        stack = [(root,0)]
+        count = [0]
+        num = [0]
+        res = []
+        while stack:
+            node,level = stack.pop(0)
+            if level+1>len(num):
+                count.append(0)
+                num.append(0)
+            count[level]+=node.val
+            num[level]+=1
             if node.left:
                 stack.append((node.left,level+1))
             if node.right:
                 stack.append((node.right,level+1))
+        for i in range(len(num)):
+            res.append(count[i]/num[i])
         return res
-
-    def levelOrder2(self, root: TreeNode) -> List[List[int]]:
-        if not root:
-            return []
-        lcur,lnext = [],[]
+    
+    def averageOfLevels(self, root: TreeNode) -> List[float]:
+        lcur = [root]
+        lnext = []
+        count = 0
+        num = 0
         res = []
-        lcur.append(root)
-        level = 0
         while lcur:
-            res.append([])
-            while lcur:
-                node = lcur.pop(0)
+            for node in lcur:
+                count+=node.val
+                num+=1
                 if node.left:
                     lnext.append(node.left)
                 if node.right:
-                    lnext.append(node.right) 
-                res[level].append(node.val)
-            level+=1
+                    lnext.append(node.right)
+            res.append(count/num)
             lcur = lnext
             lnext = []
+            count,num = 0,0
         return res
 
-    def levelOrder3(self, root: TreeNode) -> List[List[int]]:
-        res = []
-        self.dfs(root,res,0)
-        return res
-    def dfs(self,root,res,level):
-        if not root:
-            return 
-        if len(res)<level+1:
-            res.append([])
-        res[level].append(root.val)
-        self.dfs(root.left,res,level+1)
-        self.dfs(root.right,res,level+1)
-        
 
-tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])
-solution = Solution()
-res = solution.levelOrder(tree)
-print(res)  
+tree = constructBinaryTree([3,9,20,6,2,15,7])
+x=Solution()
+res = x.averageOfLevels(tree)
+print(res)

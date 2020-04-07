@@ -28,16 +28,34 @@ def constructBinaryTree(elemList):
     recr(_root, 0)
     return _root
 
-class Solution:
-    def sumOfLeftLeaves(self, root: TreeNode) -> int:
-        if not root:
-            return 0
-        s = 0
-        if root.left and not root.left.left and not root.left.right:
-            s = s + root.left.val
-        return s + self.sumOfLeftLeaves(root.left)+self.sumOfLeftLeaves(root.right)
+def levelOrder(root: TreeNode) :
+    res, queue = [],deque([(root,0)])
+    while queue:
+        cur,level = queue.popleft()
+        if cur:
+            if len(res)<level+1:
+                res.append([])
+            res[level].append(cur.val)
+            queue.append([cur.left,level+1])
+            queue.append([cur.right,level+1])
+    print(res)
 
-tree = constructBinaryTree([3,9,20,None,None,15,7])
-x=Solution()
-res = x.sumOfLeftLeaves(tree)
-print(res)  
+class Solution:
+    def mergeTrees(self, t1: TreeNode, t2: TreeNode) -> TreeNode:
+        if not t1:
+            return t2
+        if not t2:
+            return t1
+        node = TreeNode(t1.val+t2.val)
+        node.left = self.mergeTrees(t1.left,t2.left)
+        node.right = self.mergeTrees(t1.right,t2.right)
+        return node
+
+
+a = [1,3,2,5]
+b = [2,1,3,None,4,None,7]
+t1 = constructBinaryTree(a)
+t2 = constructBinaryTree(b)
+x = Solution()
+res = x.mergeTrees(t1,t2)
+levelOrder(res)

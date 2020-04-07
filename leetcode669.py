@@ -27,22 +27,33 @@ def constructBinaryTree(elemList):
             root.right = None
     recr(_root, 0)
     return _root
-class Solution:
-    def levelOrder(self, root: TreeNode) -> List[List[int]]:
-        if not root:
-            return 
-        res,stack = [],[(root,0)]
-        while stack:
-            cur,level = stack.pop()
+
+def levelOrder(root: TreeNode) :
+    res, queue = [],deque([(root,0)])
+    while queue:
+        cur,level = queue.popleft()
+        if cur:
             if len(res)<level+1:
                 res.append([])
             res[level].append(cur.val)
-            stack.append((cur.right,level+1))
-            stack.append((cur.left,level+1))
-        return res
-        
+            queue.append([cur.left,level+1])
+            queue.append([cur.right,level+1])
+    print(res)
 
-tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])
-solution = Solution()
-res = solution.levelOrder(tree)
-print(res)  
+class Solution:
+    def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
+        if not root:
+            return None
+        if root.val<L:
+            return self.trimBST(root.right,L,R)
+        if root.val>R:
+            return self.trimBST(root.left,L,R)
+        root.left = self.trimBST(root.left,L,R)
+        root.right = self.trimBST(root.right,L,R)
+        return root
+
+
+tree = constructBinaryTree([5,2,7,1,3,6,9])
+x=Solution()
+res = x.trimBST(tree,2,8)
+levelOrder(res)

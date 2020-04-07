@@ -44,6 +44,18 @@ class Solution:
         output.append(root)
         self.inorder(root.right,output)
 
+    def isValidBST2(self, root: TreeNode) -> bool:
+        return self.helper(root,float('-inf'),float('inf'))
+        
+    def helper(self,root,low,high):
+        if not root:
+            return True
+        l = self.helper(root.left,low,root.val)
+        r = self.helper(root.right,root.val,high)
+        if root.val<=low or root.val>=high:
+            return False
+        return l and r
+
 x=constructBinaryTree([2,1,3])
 solution = Solution()
 a = solution.isValidBST(x)
