@@ -10,20 +10,20 @@ class Solution:
     def generateTrees(self, n: int) -> List[TreeNode]:
         return self.generate(1,n) if n else []
 
-    def generate(self,start,end):
-        if start>end:
+    def generate(self,first,last):
+        if first > last:
             return [None]
-        res = []
-        for i in range(start,end+1):
-            res1 = self.generate(start,i-1)
-            res2 = self.generate(i+1,end)
-            for i in res1:
-                for j in res2:
-                    tmp = TreeNode(i)
-                    tmp.left = i
-                    tmp.right = j
-                    res.append(tmp)
-        return res
+        trees = []
+        for root in range(first, last + 1):
+            lefts = self.generate(first, root - 1)
+            rights = self.generate(root + 1, last)
+            for left in lefts:
+                for right in rights:
+                    node = TreeNode(root)
+                    node.left = left
+                    node.right = right
+                    trees.append(node)
+        return trees
 
 x = Solution()
 a = x.generateTrees(5)

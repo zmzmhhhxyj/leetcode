@@ -1,15 +1,18 @@
-from  typing import List 
+from typing import List
 class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
-        dp = [1]*len(nums)
-        for i in range(1,len(nums)):
-            for j in range(0,i):
-                if nums[j]<nums[i]:
-                    dp[i] = max(dp[i],dp[j]+1)
-        return max(dp)
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        dp = [False]*(len(s)+1)
+        dp[0] = True
+        i = 0
+        while i<len(s):
+            if dp[i]:
+                for j in wordDict:
+                    if s[i:i+len(j)]==j:
+                        dp[i+len(j)] = True
+            i+=1
+        return dp[-1]
+
 
 x = Solution()
-a = x.lengthOfLIS([10,9,2,5,3,7,101,18])
+a = x.wordBreak("aaaaaaa",["aaaa", "aaa"])
 print(a)

@@ -1,14 +1,13 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
-        num_set = set()
-        while n!=1:
+        numSet = set()
+        while n not in numSet:
+            numSet.add(n)
             n = sum([int(i)**2 for i in str(n)])
-            if n in num_set:
-                return False
-            else:
-                num_set.add(n)
-        return True
+            if n==1:
+                return True
+        return False
 
 x = Solution()
-res = x.isHappy(22)
+res = x.isHappy(19)
 print(res)
