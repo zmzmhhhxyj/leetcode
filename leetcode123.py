@@ -17,6 +17,30 @@ class Solution(object):
             res = max(res,l[i]+r[i+1])
         return res
 
+    def maxProfit2(self, prices):
+        # dynamic programming
+        # 200518
+        if len(prices)<=1:
+            return 0
+        p1 = [0]*len(prices)
+        p2 = [0]*len(prices)
+        left_curmin = prices[0]
+        right_curmax = prices[-1]
+        l_diff = 0
+        r_diff = 0
+        for i in range(len(prices)):
+            l_diff = max(l_diff,prices[i]-left_curmin)
+            left_curmin = min(left_curmin,prices[i])
+            p1[i] = l_diff
+        for i in range(len(prices)-1,-1,-1):
+            r_diff = max(r_diff,right_curmax-prices[i])
+            right_curmax = max(right_curmax,prices[i])
+            p2[i] = r_diff
+        res = max(p1[-1],p2[0])
+        for i in range(0,len(prices)-1):
+            res = max(res,p1[i]+p2[i+1])
+        return res
+
 x = Solution()
 res = x.maxProfit([3,3,5,0,0,3,1,4])
 print(res)

@@ -28,32 +28,6 @@ def constructBinaryTree(elemList):
     recr(_root, 0)
     return _root
 
-# written by myself, no need to use extra "None" when parent is None
-def constructBinaryTree(elemList):
-    length = len(elemList)
-    if(length == 0):
-        return None
-    root = TreeNode(elemList[0])
-    stack = [root]
-    elemList.pop(0)
-    while stack:
-        node = stack.pop(0)
-        if not elemList:
-            break
-        num2 = elemList.pop(0)
-        l = TreeNode(num2)
-        if num2!=None:
-            stack.append(l)
-            node.left = l
-        if not elemList:
-            break
-        num3 = elemList.pop(0)
-        r = TreeNode(num3)
-        if num3!=None:
-            stack.append(r)
-            node.right = r
-    return root
-
 def levelOrder(root: TreeNode) :
     res, queue = [],deque([(root,0)])
     while queue:
@@ -66,6 +40,37 @@ def levelOrder(root: TreeNode) :
             queue.append([cur.right,level+1])
     print(res)
 
+class Solution:
+    def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
+        xroot,xdepth = self.getPD(root,x,0)
+        yroot,ydepth = self.getPD(root,y,0)
+        if xroot!=yroot and xdepth==ydepth:
+            return True
+        else:
+            return False
+        
+    def getPD(self,root,num,depth):
+        if not root:
+            return None,0
+        if root.left:
+            if root.left.val==num:
+                return root,depth+1
+            else:
+                lroot,ldepth = self.getPD(root.left,num,depth+1)
+                if lroot:
+                    return lroot,ldepth
+        if root.right:
+            if root.right.val==num:
+                return root,depth+1
+            else:
+                rroot,rdepth = self.getPD(root.right,num,depth+1)
+                if rroot:
+                    return rroot,rdepth
+        return None,0
 
-tree = constructBinaryTree([3,9,20,None,None,15,7,None,None, None,None,7,9,2,5])
-levelOrder(tree)
+tree = constructBinaryTree([1,2,3,None,4,None,5])
+# tree = constructBinaryTree([1,2,3,None,None,None,4,5])
+x = Solution()
+res = x.isCousins(tree,5,4)
+# res = x.isCousins(tree,1,2)
+print(res)

@@ -12,6 +12,7 @@ class Solution:
                 path.append(candidates[i])
                 dfs(path,res,sum+candidates[i],i)
                 path.pop()
+                #path = path[:-1]
         dfs([],res,0,0)
         return res
 

@@ -21,7 +21,7 @@ class Solution:
             return res
         return dfs([],res,nums[0]-1,[False]*len(nums))
 
-a = [1,1,2]
+a = [1,2,2]
 x = Solution()
 res = x.permuteUnique(a)
 print(res)

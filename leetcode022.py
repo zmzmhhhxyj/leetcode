@@ -29,5 +29,5 @@ class Solution:
             path = path[:-1]        
 
 x = Solution()
-ans = x.generateParenthesis(3)
+ans = x.generateParenthesis2(3)
 print(ans)

@@ -29,7 +29,7 @@ def constructBinaryTree(elemList):
     return _root
 
 class Solution:
-    def isValidBST(self, root: TreeNode) -> bool:
+    def isValidBST3(self, root: TreeNode) -> bool:
         output = []
         self.inorder(root,output)
         for i in range(1,len(output)):
@@ -55,6 +55,21 @@ class Solution:
         if root.val<=low or root.val>=high:
             return False
         return l and r
+
+    def isValidBST(self, root: TreeNode) -> bool:
+        stack = []
+        pre = -float("inf")
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+            node = stack.pop()
+            if node.val<=pre:
+                return False
+            pre = node.val
+            root = node.right
+        return True
+
 
 x=constructBinaryTree([2,1,3])
 solution = Solution()
